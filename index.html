@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pre-filled Form Link Generator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 20px;
-            background-color: #ECF4D6;
+            background-color: #f8f8f8;
         }
 
         h1 {
-            color: #265073;
+            color: #2A3042;
         }
 
         input {
-            width: calc(100% - 18px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #9AD0C2;
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cfd8dc;
             border-radius: 5px;
         }
 
         button {
-            padding: 10px;
-            background-color: #2D9596;
+            padding: 12px;
+            background-color: #009688;
             color: white;
             border: none;
             cursor: pointer;
@@ -33,40 +33,56 @@
             margin-left: 5px;
         }
 
+        button.addButton {
+            background-color: #4F60BA;
+            margin-right: 5px;
+        }
+
         p#result {
-            color: #265073;
+            color: #00427e;
+            margin-top: 10px;
         }
 
         .section {
-            background-color: #9AD0C2;
-            padding: 15px;
+            background-color: #4F60BA;
+            padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid #cfd8dc;
             border-radius: 10px;
             position: relative;
         }
 
-        .removeButton {
-            background-color: #FF6B6B;
-            position: absolute;
-            top: 10px;
-            right: 5px;
+        .section input {
+            margin: 5px 0; /* Equal margins on all sides */
         }
 
-        .addButton {
-            background-color: #4caf50;
+        .removeButton {
+            background-color: #e57373;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            padding: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .addButton {
+            background-color: #4F60BA;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 12px;
             margin-right: 5px;
         }
 
         .buttonContainer {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
     </style>
+    <title>Pre-filled Form Link Generator</title>
 </head>
 <body>
 
