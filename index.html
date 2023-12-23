@@ -238,28 +238,50 @@
         }
 
         function addPaymentSection() {
-            if (paymentSectionAdded) {
-                alert('Only one payment prefill is allowed.');
-                return;
-            }
+    if (paymentSectionAdded) {
+        alert('Only one payment prefill is allowed.');
+        return;
+    }
 
-            var sections = document.querySelectorAll('.section');
-            var lastSection = sections[sections.length - 1];
+    var sections = document.querySelectorAll('.section');
+    var lastSection = sections[sections.length - 1];
 
-            var newSection = document.createElement('div');
-            newSection.className = 'section';
-            newSection.innerHTML = `
-                <input type="text" class="fieldID" placeholder="payment_variable_input_amount_field_id" disabled>
-                <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents">
-                <button onclick="removeSection(this)" class="removeButton">−</button>
-            `;
+    var newSection = document.createElement('div');
+    newSection.className = 'section';
+    newSection.innerHTML = `
+        <input type="text" class="fieldID" value="payment_variable_input_amount_field_id" disabled>
+        <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents" value="$0.00" oninput="updateDisplayValue(this)">
+        <input type="hidden" class="prefillValueCents" name="payment_variable_input_amount_field_id" value="0">
+        <button onclick="removeSection(this)" class="removeButton">−</button>
+    `;
 
-            newSection.classList.add('payment-section');
+    newSection.classList.add('payment-section');
 
-            lastSection.insertAdjacentElement('afterend', newSection);
+    lastSection.insertAdjacentElement('afterend', newSection);
 
-            paymentSectionAdded = true;
-        }
+    paymentSectionAdded = true;
+}
+
+
+    // Function to update display value in real-time
+    function updateDisplayValue(input) {
+        var displayInput = input.value;
+        var centsInput = displayInput.replace(/\D/g, ''); // Remove non-numeric characters
+
+        // Update the hidden input with the value in cents
+        var hiddenInput = input.parentNode.querySelector('.prefillValueCents');
+        hiddenInput.value = centsInput;
+
+        // Format and display the currency value
+        input.value = formatCurrency(centsInput);
+    }
+
+    // Function to format currency
+    function formatCurrency(valueInCents) {
+        // Format the value as a currency with a "$" sign and 2 decimal places
+        var valueInDollars = (parseFloat(valueInCents) / 100).toFixed(2);
+        return '$' + valueInDollars;
+    }
 
         function removeSection(button) {
             var section = button.parentNode;
@@ -272,22 +294,46 @@
         }
 
         function generateLink() {
+    console.log('Entering generateLink function');
+
     var formLink = document.getElementById('formLink').value;
+    console.log('formLink:', formLink);
+
     var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
+    console.log('fieldSections:', fieldSections);
 
     // Check if all input fields are filled
     var allFieldsFilled = fieldSections.every(function (section) {
+        console.log('Checking section:', section);
+
         var fieldID = section.querySelector('.fieldID').value;
         var prefillValue = section.querySelector('.prefillValue').value;
+
+        console.log('fieldID:', fieldID);
+        console.log('prefillValue:', prefillValue);
+
+        // For payment input, extract the numeric value without "$" and convert to cents
+        if (section.classList.contains('payment-section')) {
+            var numericValue = parseFloat(prefillValue.replace(/[^\d.]/g, ''), 10);
+            console.log('Numeric Value:', numericValue);
+
+            section.querySelector('.prefillValueCents').value = isNaN(numericValue) ? 0 : numericValue * 100;
+            console.log('prefillValueCents:', section.querySelector('.prefillValueCents').value);
+        }
+
         return fieldID && prefillValue;
     });
 
-    if (!formLink || !allFieldsFilled) {
+    console.log('allFieldsFilled:', allFieldsFilled);
+
+    if (!allFieldsFilled) {
+        console.log('Some fields are not filled');
         alert('Please fill in all the required fields.');
         return;
     }
 
     var link = formLink;
+    console.log('Initial link:', link);
 
     fieldSections.forEach(function (section, index) {
         var fieldID = section.querySelector('.fieldID').value;
@@ -299,7 +345,9 @@
             link += '&';
         }
 
-        link += fieldID + '=' + prefillValue;
+        // Exclude the "$" and convert payment value to cents
+        var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
+        link += fieldID + '=' + valueToAppend;
     });
 
     var resultSection = document.getElementById('resultSection').querySelector('p');
@@ -307,7 +355,11 @@
 
     // Show the result container
     document.getElementById('resultSection').style.display = 'flex';
+
+    console.log('Generated Link:', link); // Add this line for additional debugging
 }
+
+
 
 
         function copyLink() {
