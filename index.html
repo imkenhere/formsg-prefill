@@ -178,6 +178,22 @@ p#result {
     width: 70px; /* Set the same fixed width as the "Copy" button */
 }
 
+/* Add this to your existing styles */
+.copy-count-container {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #009688;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#copyCountNumber {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+
 /* Media Query for Mobile */
 @media (max-width: 768px) {
     .container {
@@ -204,10 +220,19 @@ p#result {
     .result-container {
         font-size: 12px; /* Set the desired font size for mobile */
     }
+    
 }
 
     </style>
-
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-3LR92SQXN2');
+    </script>
     <!-- Paste the Botsonic widget script here -->
     <script>
         (function (w, d, s, o, f, js, fjs) {
@@ -259,6 +284,8 @@ p#result {
                 <p></p>
                 <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
             </div>
+            <div id="copyCount">Copies: Loading...</div>
+
         </div>
     </div>
 
@@ -442,6 +469,11 @@ function copyLink() {
     // Change the text to "Copied"
     var copyButton = document.getElementById('copyButton');
     copyButton.textContent = 'Copied';
+
+    gtag('event', 'copy_link', {
+        'event_category': 'Link Interaction',
+        'event_label': 'Copy Button'
+    });
 }
 
 function resetCopyButton() {
@@ -453,6 +485,31 @@ function resetCopyButton() {
 // Call resetCopyButton() whenever you generate a new link
 // For example, add the following line at the end of your generateLink() function:
 // resetCopyButton();
+
+// Fetch the copy count from Google Analytics
+function fetchCopyCount() {
+    gtag('config', 'G-3LR92SQXN2', {
+        'send_page_view': false
+    });
+
+    gtag('event', 'copy_link', {
+        'event_category': 'Link Interaction',
+        'event_label': 'Copy Button'
+    });
+
+    // Wait for Google Analytics to process the event (may take some time)
+    setTimeout(function () {
+        var copyCount = gtag('get', 'event', 'copy_link').length;
+        document.getElementById('copyCount').innerText = 'Copies: ' + copyCount;
+    }, 5000); // Adjust the delay as needed
+}
+
+// Call fetchCopyCount after the page has loaded
+document.addEventListener('DOMContentLoaded', function () {
+    fetchCopyCount();
+});
+
+
     </script>
 
 </body>
