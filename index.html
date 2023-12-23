@@ -532,15 +532,14 @@
 
     // Fetch the copy count from Google Analytics
 // Fetch the copy count from Google Analytics
+// Fetch the copy count from Google Analytics
 function fetchCopyCount() {
+    console.log('Fetching copy count...');
     var copyCountContainer = document.getElementById('copyCountContainer');
-    var copyCountNumberElement = document.getElementById('copyCountNumber'); // Update this line
+    var copyCountNumberElement = document.getElementById('copyCountNumber');
 
     // Show loading spinner
-    copyCountNumberElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; // Update this line
-
-    // Replace 'G-3LR92SQXN2' with your actual Google Analytics measurement ID
-    var measurementId = 'G-3LR92SQXN2';
+    copyCountNumberElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
 
     // Wait for Google Analytics to process the events (may take some time)
     gtag('event', 'copy_link', {
@@ -550,13 +549,32 @@ function fetchCopyCount() {
 
     // Fetch the copy count directly using the 'gtag' function
     setTimeout(function () {
-        var copyCount = gtag('get', 'event', 'copy_link', { 'property': measurementId }).length;
+        // Fetch the event count directly from Google Analytics
+        var copyCount = gtag('event', 'copy_link', {
+            'event_category': 'Link Interaction',
+            'event_label': 'Copy Button',
+            'non_interaction': true
+        });
 
-        copyCountNumberElement.innerText = copyCount; // Update this line
+        // Display the copy count
+        updateCopyCount(copyCount);
+
     }, 5000); // Adjust the delay as needed
 }
 
 
+
+function updateCopyCount(count) {
+    // Assuming you have an element with an id 'copyCountNumber' to display the count
+    var copyCountNumberElement = document.getElementById('copyCountNumber');
+
+    if (copyCountNumberElement) {
+        // Update the content of the element with the new count
+        copyCountNumberElement.textContent = count;
+    } else {
+        console.error('Copy count element not found.');
+    }
+}
 
 
 
