@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google Analytics Script -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-3LR92SQXN2');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
@@ -397,6 +406,12 @@ function addPaymentSection() {
     // Show the result container
     document.getElementById('resultSection').style.display = 'flex';
 
+    // Send event to Google Analytics
+gtag('event', 'link_generated', {
+    'event_category': 'link_generation',
+    'event_label': 'Link Generated',
+});
+
     console.log('Generated Link:', link); // Add this line for additional debugging
 }
 
@@ -404,16 +419,22 @@ function addPaymentSection() {
 
 
 
-        function copyLink() {
-            var linkText = document.getElementById('resultSection').querySelector('p');
-            var tempInput = document.createElement('input');
-            tempInput.value = linkText.textContent;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('Link copied to clipboard!');
-        }
+function copyLink() {
+    var linkText = document.getElementById('resultSection').querySelector('p');
+    var tempInput = document.createElement('input');
+    tempInput.value = linkText.textContent;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    alert('Link copied to clipboard!');
+
+    // Send event to Google Analytics for copy button click
+    gtag('event', 'copy_link_button_click', {
+        'event_category': 'button_click',
+        'event_label': 'Copy Link Button Clicked',
+    });
+}
     </script>
 
 </body>
