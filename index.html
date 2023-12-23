@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+    
     <style>
 body {
     font-family: 'Inter', sans-serif;
@@ -178,7 +180,6 @@ p#result {
     width: 70px; /* Set the same fixed width as the "Copy" button */
 }
 
-/* Add this to your existing styles */
 .copy-count-container {
     margin-top: 10px;
     padding: 10px;
@@ -188,11 +189,32 @@ p#result {
     text-align: center;
 }
 
+#copyCount {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
 #copyCountNumber {
     font-weight: bold;
     margin-left: 5px;
 }
 
+
+/* Loading spinner styles */
+.fa-spinner {
+    display: inline-block;
+    font: normal normal normal 24px/1 FontAwesome;
+    animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 /* Media Query for Mobile */
 @media (max-width: 768px) {
@@ -224,15 +246,7 @@ p#result {
 }
 
     </style>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-3LR92SQXN2');
-    </script>
+
     <!-- Paste the Botsonic widget script here -->
     <script>
         (function (w, d, s, o, f, js, fjs) {
@@ -256,7 +270,15 @@ p#result {
 
     <title>FormSG prefill generator</title>
 </head>
-
+   <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
+   <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+   
+     gtag('config', 'G-3LR92SQXN2');
+   </script>
 <body>
 
     <div class="container">
@@ -284,7 +306,11 @@ p#result {
                 <p></p>
                 <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
             </div>
-            <div id="copyCount">Copies: Loading...</div>
+            
+            <div id="copyCountContainer" class="copy-count-container">
+                <span id="copyCount">Loading...</span>
+            </div>
+            
 
         </div>
     </div>
@@ -488,21 +514,31 @@ function resetCopyButton() {
 
 // Fetch the copy count from Google Analytics
 function fetchCopyCount() {
-    gtag('config', 'G-3LR92SQXN2', {
-        'send_page_view': false
-    });
+    var copyCountContainer = document.getElementById('copyCountContainer');
+    var copyCountElement = document.getElementById('copyCount');
 
+    // Show loading spinner
+    copyCountElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
+
+    // Replace 'G-3LR92SQXN2' with your actual Google Analytics measurement ID
+    var measurementId = 'G-3LR92SQXN2';
+
+    // Wait for Google Analytics to process the events (may take some time)
     gtag('event', 'copy_link', {
         'event_category': 'Link Interaction',
         'event_label': 'Copy Button'
     });
 
-    // Wait for Google Analytics to process the event (may take some time)
+    // Fetch the copy count directly using the 'gtag' function
     setTimeout(function () {
-        var copyCount = gtag('get', 'event', 'copy_link').length;
-        document.getElementById('copyCount').innerText = 'Copies: ' + copyCount;
+        var copyCount = gtag('get', 'event', 'copy_link', { 'property': measurementId }).length;
+
+        // Display the copy count
+        copyCountElement.innerText = 'Copies: ' + copyCount;
     }, 5000); // Adjust the delay as needed
 }
+
+
 
 // Call fetchCopyCount after the page has loaded
 document.addEventListener('DOMContentLoaded', function () {
