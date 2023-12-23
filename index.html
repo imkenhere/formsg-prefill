@@ -541,26 +541,41 @@ function fetchCopyCount() {
     // Show loading spinner
     copyCountNumberElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
 
-    // Wait for Google Analytics to process the events (may take some time)
-    gtag('event', 'copy_link', {
-        'event_category': 'Link Interaction',
-        'event_label': 'Copy Button'
+    // Return a promise that resolves with the copy count
+    return new Promise(function (resolve, reject) {
+        try {
+            // Trigger the 'copy_link' event
+            gtag('event', 'copy_link', {
+                'event_category': 'Link Interaction',
+                'event_label': 'Copy Button',
+                'non_interaction': true,
+                'event_callback': function () {
+                    // Wait for Google Analytics to process the events
+                    setTimeout(function () {
+                        // Fetch the event count directly from Google Analytics
+                        var copyCount = gtag('get', 'event', 'copy_link');
+
+                        console.log('Fetched copy count:', copyCount);
+
+                        // Resolve the promise with the copy count
+                        resolve(copyCount);
+                    }, 5000); // Adjust the delay as needed
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching copy count:', error);
+            reject(error);
+        }
     });
-
-    // Fetch the copy count directly using the 'gtag' function
-    setTimeout(function () {
-        // Fetch the event count directly from Google Analytics
-        var copyCount = gtag('event', 'copy_link', {
-            'event_category': 'Link Interaction',
-            'event_label': 'Copy Button',   
-            'non_interaction': true
-        });
-
-        // Display the copy count
-        updateCopyCount(copyCount);
-
-    }, 5000); // Adjust the delay as needed
 }
+
+
+
+// Call fetchCopyCount and then update the copy count
+fetchCopyCount().then(function (count) {
+    updateCopyCount(count);
+});
+
 
 
 
@@ -569,19 +584,16 @@ function updateCopyCount(count) {
     var copyCountNumberElement = document.getElementById('copyCountNumber');
 
     if (copyCountNumberElement) {
-        // Check if count is not undefined before updating the content
-        if (count !== undefined) {
-            // Update the content of the element with the new count
-            copyCountNumberElement.textContent = count;
-        } else {
-            // Handle the case when the count is undefined (optional)
-            copyCountNumberElement.textContent = 'N/A';
-            console.error('Copy count is undefined.');
-        }
+        // Use a default value (0 in this case) if count is undefined
+        var displayCount = count !== undefined ? count : 0;
+
+        // Update the content of the element with the new count
+        copyCountNumberElement.textContent = displayCount;
     } else {
         console.error('Copy count element not found.');
     }
 }
+
 
 
 
