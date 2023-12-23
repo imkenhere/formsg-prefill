@@ -237,6 +237,15 @@
             lastSection.insertAdjacentElement('afterend', newSection);
         }
 
+        function updatePaymentValue(input) {
+    // Remove non-numeric characters
+    var numericValue = input.value.replace(/\D/g, '');
+
+    // Ensure the value is not empty and starts with $0
+    input.value = numericValue === '' ? '$0' : '$' + parseInt(numericValue, 10);
+}
+
+
         function addPaymentSection() {
     if (paymentSectionAdded) {
         alert('Only one payment prefill is allowed.');
@@ -319,6 +328,12 @@
 
             section.querySelector('.prefillValueCents').value = isNaN(numericValue) ? 0 : numericValue * 100;
             console.log('prefillValueCents:', section.querySelector('.prefillValueCents').value);
+
+            // Check if the payment input is within the valid range
+            if (numericValue < 0.5 || numericValue > 200000) {
+                alert('Payment amount must be between $0.50 and $200000.');
+                return false; // Abort link generation
+            }
         }
 
         return fieldID && prefillValue;
@@ -358,6 +373,7 @@
 
     console.log('Generated Link:', link); // Add this line for additional debugging
 }
+
 
 
 
