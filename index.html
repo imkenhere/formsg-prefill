@@ -1,545 +1,541 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    background-color: #f8f8f8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-
-.container {
-    display: flex;
-    width: 80%;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.image-container {
-    flex: 1;
-    overflow: hidden;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.image-container img {
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.form-container {
-    flex: 1;
-    padding: 20px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    overflow-y: auto;
-    max-height: 80vh;
-}
-
-h1 {
-    color: #2A3042;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-input {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #cfd8dc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 12px;
-    margin-right: 10px;
-    background-color: #009688;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button.addButton {
-    background-color: #4F60BA;
-    border-radius: 5px;
-    margin-right: 10px;
-    width: 100px;
-}
-
-button.paymentButton {
-    background-color: #4F60BA;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 12px;
-    margin-right: 10px;
-    width: 100px;
-}
-
-p#result {
-    color: #00427e;
-    margin-top: 10px;
-}
-
-#resultSection {
-    display: none;
-    margin-top: 20px;
-}
-
-.section {
-    background-color: white;
-    padding: 0px 20px 20px 0px;
-    width: calc(100% - 40px);
-    margin-bottom: 0;
-    border-radius: 0;
-    position: relative;
-}
-
-.section input {
-    margin: 5px 0;
-}
-
-.removeButton {
-    position: absolute;
-    top: 2.5px;
-    right: -30px;
-    background-color: #e57373;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.addButton {
-    background-color: #4F60BA;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 12px;
-    margin-right: 0px;
-}
-
-.buttonContainer {
-    display: flex;
-    margin-bottom: 0;
-}
-
-.result-container {
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #cfd8dc;
-    border-radius: 5px;
-    color: #2A3042;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow: hidden;
-    font-size: 14px; /* Set the desired font size */
-    margin-top: 20px; /* Adjust as needed */
-}
-
-.result-container p {
-    margin: 0;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.copyButton {
-    background-color: #009688;
-    color: white;
-    border-radius: 5px;
-    margin-left: 10px;
-    padding: 12px; /* Set the desired padding */
-    cursor: pointer;
-}
-
-.copiedButton {
-    background-color: #009688;
-    color: white;
-    border-radius: 5px;
-    margin-left: 10px;
-    width: 70px; /* Set the same fixed width as the "Copy" button */
-}
-
-.copy-count-container {
-    bottom: 10px; /* Adjust the distance from the bottom */
-    right: 10px; /* Adjust the distance from the right */
-    width: 15%;
-    padding: 10px;
-    background-color: #009688; /* Set the button background color */
-    color: white; /* Set the text color */
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Add a smooth color transition */
-}
-.copy-count-container:hover {
-    background-color: #00796b; /* Change color on hover */
-}
-
-#copyCount {
-    font-weight: bold;
-    margin-left: 5px;
-}
-
-#copyCountNumber {
-    font-weight: bold;
-    margin-left: 5px;
-}
-
-
-/* Loading spinner styles */
-.fa-spinner {
-    display: inline-block;
-    font: normal normal normal 18px/1 FontAwesome; /* Adjust font size */
-    animation: fa-spin 1s infinite linear;
-}
-
-.spinner-container {
-    position: fixed;
-    bottom: 20px; /* Adjust distance from bottom */
-    right: 20px; /* Adjust distance from right */
-    background-color: rgba(255, 255, 255, 0.8); /* Adjust background color and opacity */
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    
-}
-@keyframes fa-spin {
-    0% {
-        transform: rotate(0deg);
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        background-color: #f8f8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
     }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
-/* Media Query for Mobile */
-@media (max-width: 768px) {
+
     .container {
-        flex-direction: column;
-        width: 90%;
+        display: flex;
+        width: 80%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        overflow: hidden;
+        border-radius: 10px;
     }
 
     .image-container {
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        flex: 1;
+        overflow: hidden;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
 
     .form-container {
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 10px;
+        flex: 1;
+        padding: 20px;
+        border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
+        overflow-y: auto;
+        max-height: 80vh;
     }
 
-    .copyButton {
-        padding: 12px; /* Adjust for mobile */
+    h1 {
+        color: #2A3042;
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+
+    input {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #cfd8dc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 12px;
+        margin-right: 10px;
+        background-color: #009688;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button.addButton {
+        background-color: #4F60BA;
+        border-radius: 5px;
+        margin-right: 10px;
+        width: 100px;
+    }
+
+    button.paymentButton {
+        background-color: #4F60BA;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 12px;
+        margin-right: 10px;
+        width: 100px;
+    }
+
+    p#result {
+        color: #00427e;
+        margin-top: 10px;
+    }
+
+    #resultSection {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .section {
+        background-color: white;
+        padding: 0px 20px 20px 0px;
+        width: calc(100% - 40px);
+        margin-bottom: 0;
+        border-radius: 0;
+        position: relative;
+    }
+
+    .section input {
+        margin: 5px 0;
+    }
+
+    .removeButton {
+        position: absolute;
+        top: 2.5px;
+        right: -30px;
+        background-color: #e57373;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .addButton {
+        background-color: #4F60BA;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 12px;
+        margin-right: 0px;
+    }
+
+    .buttonContainer {
+        display: flex;
+        margin-bottom: 0;
     }
 
     .result-container {
-        font-size: 12px; /* Set the desired font size for mobile */
+        background-color: #fff;
+        padding: 10px;
+        border: 1px solid #cfd8dc;
+        border-radius: 5px;
+        color: #2A3042;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        font-size: 14px; /* Set the desired font size */
+        margin-top: 20px; /* Adjust as needed */
     }
+
+    .result-container p {
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .copyButton {
+        background-color: #009688;
+        color: white;
+        border-radius: 5px;
+        margin-left: 10px;
+        padding: 12px; /* Set the desired padding */
+        cursor: pointer;
+    }
+
+    .copiedButton {
+        background-color: #009688;
+        color: white;
+        border-radius: 5px;
+        margin-left: 10px;
+        width: 70px; /* Set the same fixed width as the "Copy" button */
+    }
+
+    .copy-count-container {
+        bottom: 10px; /* Adjust the distance from the bottom */
+        right: 10px; /* Adjust the distance from the right */
+        width: 15%;
+        padding: 10px;
+        background-color: #009688; /* Set the button background color */
+        color: white; /* Set the text color */
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Add a smooth color transition */
+    }
+    .copy-count-container:hover {
+        background-color: #00796b; /* Change color on hover */
+    }
+
+    #copyCountNumber {
+        font-weight: bold;
+        margin-left: 5px;
+    }
+
+
+    /* Loading spinner styles */
+    .fa-spinner {
+        display: inline-block;
+        font: normal normal normal 18px/1 FontAwesome; /* Adjust font size */
+        animation: fa-spin 1s infinite linear;
+    }
+
+    .spinner-container {
+        position: fixed;
+        bottom: 20px; /* Adjust distance from bottom */
+        right: 20px; /* Adjust distance from right */
+        background-color: rgba(255, 255, 255, 0.8); /* Adjust background color and opacity */
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        
+    }
+    @keyframes fa-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Media Query for Mobile */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            width: 90%;
+        }
+
+        .image-container {
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .form-container {
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .copyButton {
+            padding: 12px; /* Adjust for mobile */
+        }
+
+        .result-container {
+            font-size: 12px; /* Set the desired font size for mobile */
+        }
+        
+    }
+
+        </style>
+
+        <!-- Paste the Botsonic widget script here -->
+        <script>
+            (function (w, d, s, o, f, js, fjs) {
+                w["botsonic_widget"] = o;
+                w[o] =
+                    w[o] ||
+                    function () {
+                        (w[o].q = w[o].q || []).push(arguments);
+                    };
+                (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
+                js.id = o;
+                js.src = f;
+                js.async = 1;
+                fjs.parentNode.insertBefore(js, fjs);
+            })(window, document, "script", "Botsonic", "https://widget.writesonic.com/CDN/botsonic.min.js");
+            Botsonic("init", {
+                serviceBaseUrl: "https://api.botsonic.ai",
+                token: "59b1d482-1c64-4107-809b-d1aa9c222414",
+            });
+        </script>
+
+        <title>FormSG prefill generator</title>
+        <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
     
-}
-
-    </style>
-
-    <!-- Paste the Botsonic widget script here -->
-    <script>
-        (function (w, d, s, o, f, js, fjs) {
-            w["botsonic_widget"] = o;
-            w[o] =
-                w[o] ||
-                function () {
-                    (w[o].q = w[o].q || []).push(arguments);
-                };
-            (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
-            js.id = o;
-            js.src = f;
-            js.async = 1;
-            fjs.parentNode.insertBefore(js, fjs);
-        })(window, document, "script", "Botsonic", "https://widget.writesonic.com/CDN/botsonic.min.js");
-        Botsonic("init", {
-            serviceBaseUrl: "https://api.botsonic.ai",
-            token: "59b1d482-1c64-4107-809b-d1aa9c222414",
-        });
+        gtag('config', 'G-3LR92SQXN2');
     </script>
+    </head>
 
-    <title>FormSG prefill generator</title>
-       <!-- Google tag (gtag.js) -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
-   <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-   
-     gtag('config', 'G-3LR92SQXN2');
-   </script>
-</head>
+    <body>
 
-<body>
+        <div class="container">
+            <div class="image-container">
+                <!-- Replace the image URL with your desired image -->
+                <img src="Left.png" alt="Background Image">
+            </div>
 
-    <div class="container">
-        <div class="image-container">
-            <!-- Replace the image URL with your desired image -->
-            <img src="Left.png" alt="Background Image">
+            <div class="form-container">
+                
+                <div id="copyCountContainer" class="copy-count-container">
+                    <span id="copyCountNumber">Loading...</span>
+                </div>
+                <h1>FormSG prefill generator</h1>
+
+                <div id="formSection" class="section">
+                    <input type="text" id="formLink" placeholder="Enter form link">
+                </div>
+
+                <div class="buttonContainer">
+                    <button onclick="addSection()" class="addButton">+</button>
+                    <button onclick="addPaymentSection()" class="paymentButton">$</button>
+                    <button onclick="generateLink()">Create</button>
+                </div>
+
+                <p id="result"></p>
+
+                <div id="resultSection" class="result-container">
+                    <p></p>
+                    <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
+                </div>
+                
+
+                
+
+            </div>
         </div>
 
-        <div class="form-container">
-            
-            <!-- <div id="copyCountContainer" class="copy-count-container">
-                <span id="copyCount">Loading...</span>
-            </div> -->
-            <h1>FormSG prefill generator</h1>
+        <script>
+            var paymentSectionAdded = false;
 
-            <div id="formSection" class="section">
-                <input type="text" id="formLink" placeholder="Enter form link">
-            </div>
+            function addSection() {
+                var sections = document.querySelectorAll('.section');
+                var lastSection = sections[sections.length - 1];
 
-            <div class="buttonContainer">
-                <button onclick="addSection()" class="addButton">+</button>
-                <button onclick="addPaymentSection()" class="paymentButton">$</button>
-                <button onclick="generateLink()">Create</button>
-            </div>
+                var newSection = document.createElement('div');
+                newSection.className = 'section';
+                newSection.innerHTML = `
+                    <input type="text" class="fieldID" placeholder="Enter Field ID">
+                    <input type="text" class="prefillValue" placeholder="Enter Prefill Value">
+                    <button onclick="removeSection(this)" class="removeButton">−</button>
+                `;
 
-            <p id="result"></p>
+                lastSection.insertAdjacentElement('afterend', newSection);
+            }
 
-            <div id="resultSection" class="result-container">
-                <p></p>
-                <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
-            </div>
-            
+            function updatePaymentValue(input) {
+        // Remove non-numeric characters
+        var numericValue = input.value.replace(/\D/g, '');
 
-            
+        // Ensure the value is not empty and starts with $0
+        input.value = numericValue === '' ? '$0' : '$' + parseInt(numericValue, 10);
+    }
 
-        </div>
-    </div>
 
-    <script>
-        var paymentSectionAdded = false;
-
-        function addSection() {
-            var sections = document.querySelectorAll('.section');
-            var lastSection = sections[sections.length - 1];
-
-            var newSection = document.createElement('div');
-            newSection.className = 'section';
-            newSection.innerHTML = `
-                <input type="text" class="fieldID" placeholder="Enter Field ID">
-                <input type="text" class="prefillValue" placeholder="Enter Prefill Value">
-                <button onclick="removeSection(this)" class="removeButton">−</button>
-            `;
-
-            lastSection.insertAdjacentElement('afterend', newSection);
+    function addPaymentSection() {
+        if (paymentSectionAdded) {
+            alert('Only one payment prefill is allowed.');
+            return;
         }
 
-        function updatePaymentValue(input) {
-    // Remove non-numeric characters
-    var numericValue = input.value.replace(/\D/g, '');
+        var sections = document.querySelectorAll('.section');
+        var lastSection = sections[sections.length - 1];
 
-    // Ensure the value is not empty and starts with $0
-    input.value = numericValue === '' ? '$0' : '$' + parseInt(numericValue, 10);
-}
+        var newSection = document.createElement('div');
+        newSection.className = 'section';
+        newSection.innerHTML = `
+            <div class="section-content">
+                <input type="text" class="fieldID" value="payment_variable_input_amount_field_id" disabled>
+                <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents" value="$0.00" oninput="updateDisplayValue(this)">
+                <input type="hidden" class="prefillValueCents" name="payment_variable_input_amount_field_id" value="0">
+            </div>
+            <button onclick="removeSection(this)" class="removeButton">−</button>
+        `;
 
+        newSection.classList.add('payment-section');
 
-function addPaymentSection() {
-    if (paymentSectionAdded) {
-        alert('Only one payment prefill is allowed.');
-        return;
+        lastSection.insertAdjacentElement('afterend', newSection);
+
+        paymentSectionAdded = true;
     }
 
-    var sections = document.querySelectorAll('.section');
-    var lastSection = sections[sections.length - 1];
-
-    var newSection = document.createElement('div');
-    newSection.className = 'section';
-    newSection.innerHTML = `
-        <div class="section-content">
-            <input type="text" class="fieldID" value="payment_variable_input_amount_field_id" disabled>
-            <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents" value="$0.00" oninput="updateDisplayValue(this)">
-            <input type="hidden" class="prefillValueCents" name="payment_variable_input_amount_field_id" value="0">
-        </div>
-        <button onclick="removeSection(this)" class="removeButton">−</button>
-    `;
-
-    newSection.classList.add('payment-section');
-
-    lastSection.insertAdjacentElement('afterend', newSection);
-
-    paymentSectionAdded = true;
-}
 
 
+        // Function to update display value in real-time
+        function updateDisplayValue(input) {
+            var displayInput = input.value;
+            var centsInput = displayInput.replace(/\D/g, ''); // Remove non-numeric characters
 
-    // Function to update display value in real-time
-    function updateDisplayValue(input) {
-        var displayInput = input.value;
-        var centsInput = displayInput.replace(/\D/g, ''); // Remove non-numeric characters
+            // Update the hidden input with the value in cents
+            var hiddenInput = input.parentNode.querySelector('.prefillValueCents');
+            hiddenInput.value = centsInput;
 
-        // Update the hidden input with the value in cents
-        var hiddenInput = input.parentNode.querySelector('.prefillValueCents');
-        hiddenInput.value = centsInput;
+            // Format and display the currency value
+            input.value = formatCurrency(centsInput);
+        }
 
-        // Format and display the currency value
-        input.value = formatCurrency(centsInput);
-    }
+        // Function to format currency
+        function formatCurrency(valueInCents) {
+            // Format the value as a currency with a "$" sign and 2 decimal places
+            var valueInDollars = (parseFloat(valueInCents) / 100).toFixed(2);
+            return '$' + valueInDollars;
+        }
 
-    // Function to format currency
-    function formatCurrency(valueInCents) {
-        // Format the value as a currency with a "$" sign and 2 decimal places
-        var valueInDollars = (parseFloat(valueInCents) / 100).toFixed(2);
-        return '$' + valueInDollars;
-    }
+            function removeSection(button) {
+                var section = button.parentNode;
 
-        function removeSection(button) {
-            var section = button.parentNode;
+                if (section.classList.contains('payment-section')) {
+                    paymentSectionAdded = false;
+                }
 
+                section.parentNode.removeChild(section);
+            }
+
+            function generateLink() {
+        console.log('Entering generateLink function');
+
+        var formLink = document.getElementById('formLink').value;
+        console.log('formLink:', formLink);
+
+        var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
+        console.log('fieldSections:', fieldSections);
+
+        // Check if the form link input is empty
+        if (!formLink.trim()) {
+            alert('Form link cannot be empty.');
+            return;
+        }
+
+        // Check if all input fields are filled
+        var allFieldsFilled = fieldSections.every(function (section) {
+            console.log('Checking section:', section);
+
+            var fieldID = section.querySelector('.fieldID').value;
+            var prefillValue = section.querySelector('.prefillValue').value;
+
+            console.log('fieldID:', fieldID);
+            console.log('prefillValue:', prefillValue);
+
+            // For payment input, extract the numeric value without "$" and convert to cents
             if (section.classList.contains('payment-section')) {
-                paymentSectionAdded = false;
+                var numericValue = parseFloat(prefillValue.replace(/[^\d.]/g, ''), 10);
+                console.log('Numeric Value:', numericValue);
+
+                section.querySelector('.prefillValueCents').value = isNaN(numericValue) ? 0 : numericValue * 100;
+                console.log('prefillValueCents:', section.querySelector('.prefillValueCents').value);
+
+                // Check if the payment input is within the valid range
+                if (numericValue < 0.5 || numericValue > 200000) {
+                    alert('Payment amount must be between $0.50 and $200000.');
+                    return false; // Abort link generation
+                }
             }
 
-            section.parentNode.removeChild(section);
+            return fieldID && prefillValue;
+        });
+
+        console.log('allFieldsFilled:', allFieldsFilled);
+
+        if (!allFieldsFilled) {
+            console.log('Some fields are not filled');
+            alert('Please fill in all the required fields.');
+            return;
         }
 
-        function generateLink() {
-    console.log('Entering generateLink function');
+        var link = formLink;
+        console.log('Initial link:', link);
 
-    var formLink = document.getElementById('formLink').value;
-    console.log('formLink:', formLink);
+        fieldSections.forEach(function (section, index) {
+            var fieldID = section.querySelector('.fieldID').value;
+            var prefillValue = section.querySelector('.prefillValue').value;
 
-    var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
-    console.log('fieldSections:', fieldSections);
-
-    // Check if the form link input is empty
-    if (!formLink.trim()) {
-        alert('Form link cannot be empty.');
-        return;
-    }
-
-    // Check if all input fields are filled
-    var allFieldsFilled = fieldSections.every(function (section) {
-        console.log('Checking section:', section);
-
-        var fieldID = section.querySelector('.fieldID').value;
-        var prefillValue = section.querySelector('.prefillValue').value;
-
-        console.log('fieldID:', fieldID);
-        console.log('prefillValue:', prefillValue);
-
-        // For payment input, extract the numeric value without "$" and convert to cents
-        if (section.classList.contains('payment-section')) {
-            var numericValue = parseFloat(prefillValue.replace(/[^\d.]/g, ''), 10);
-            console.log('Numeric Value:', numericValue);
-
-            section.querySelector('.prefillValueCents').value = isNaN(numericValue) ? 0 : numericValue * 100;
-            console.log('prefillValueCents:', section.querySelector('.prefillValueCents').value);
-
-            // Check if the payment input is within the valid range
-            if (numericValue < 0.5 || numericValue > 200000) {
-                alert('Payment amount must be between $0.50 and $200000.');
-                return false; // Abort link generation
+            if (index === 0) {
+                link += '?';
+            } else {
+                link += '&';
             }
-        }
 
-        return fieldID && prefillValue;
-    });
+            // Exclude the "$" and convert payment value to cents
+            var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
+            link += fieldID + '=' + valueToAppend;
+        });
 
-    console.log('allFieldsFilled:', allFieldsFilled);
+        var resultSection = document.getElementById('resultSection').querySelector('p');
+        resultSection.textContent = link;
 
-    if (!allFieldsFilled) {
-        console.log('Some fields are not filled');
-        alert('Please fill in all the required fields.');
-        return;
+        // Show the result container
+        document.getElementById('resultSection').style.display = 'flex';
+
+        // Reset the copy button text to "Copy"
+        resetCopyButton();
+
+        console.log('Generated Link:', link); // Add this line for additional debugging
     }
 
-    var link = formLink;
-    console.log('Initial link:', link);
 
-    fieldSections.forEach(function (section, index) {
-        var fieldID = section.querySelector('.fieldID').value;
-        var prefillValue = section.querySelector('.prefillValue').value;
+    function copyLink() {
+        var linkText = document.getElementById('resultSection').querySelector('p');
+        var tempInput = document.createElement('input');
+        tempInput.value = linkText.textContent;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
 
-        if (index === 0) {
-            link += '?';
-        } else {
-            link += '&';
-        }
+        // Change the text to "Copied"
+        var copyButton = document.getElementById('copyButton');
+        copyButton.textContent = 'Copied';
 
-        // Exclude the "$" and convert payment value to cents
-        var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
-        link += fieldID + '=' + valueToAppend;
-    });
+        gtag('event', 'copy_link', {
+            'event_category': 'Link Interaction',
+            'event_label': 'Copy Button'
+        });
+    }
 
-    var resultSection = document.getElementById('resultSection').querySelector('p');
-    resultSection.textContent = link;
+    function resetCopyButton() {
+        // Reset the text to "Copy" when generating a new link
+        var copyButton = document.getElementById('copyButton');
+        copyButton.textContent = 'Copy';
+    }
 
-    // Show the result container
-    document.getElementById('resultSection').style.display = 'flex';
+    // Call resetCopyButton() whenever you generate a new link
+    // For example, add the following line at the end of your generateLink() function:
+    // resetCopyButton();
 
-    // Reset the copy button text to "Copy"
-    resetCopyButton();
-
-    console.log('Generated Link:', link); // Add this line for additional debugging
-}
-
-
-function copyLink() {
-    var linkText = document.getElementById('resultSection').querySelector('p');
-    var tempInput = document.createElement('input');
-    tempInput.value = linkText.textContent;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
-
-    // Change the text to "Copied"
-    var copyButton = document.getElementById('copyButton');
-    copyButton.textContent = 'Copied';
-
-    gtag('event', 'copy_link', {
-        'event_category': 'Link Interaction',
-        'event_label': 'Copy Button'
-    });
-}
-
-function resetCopyButton() {
-    // Reset the text to "Copy" when generating a new link
-    var copyButton = document.getElementById('copyButton');
-    copyButton.textContent = 'Copy';
-}
-
-// Call resetCopyButton() whenever you generate a new link
-// For example, add the following line at the end of your generateLink() function:
-// resetCopyButton();
-
+    // Fetch the copy count from Google Analytics
 // Fetch the copy count from Google Analytics
 function fetchCopyCount() {
     var copyCountContainer = document.getElementById('copyCountContainer');
-    var copyCountElement = document.getElementById('copyCount');
+    var copyCountNumberElement = document.getElementById('copyCountNumber'); // Update this line
 
     // Show loading spinner
-    copyCountElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+    copyCountNumberElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; // Update this line
 
     // Replace 'G-3LR92SQXN2' with your actual Google Analytics measurement ID
     var measurementId = 'G-3LR92SQXN2';
@@ -554,21 +550,22 @@ function fetchCopyCount() {
     setTimeout(function () {
         var copyCount = gtag('get', 'event', 'copy_link', { 'property': measurementId }).length;
 
-        // Display the copy count
-        copyCountElement.innerText = 'Copies: ' + copyCount;
+        copyCountNumberElement.innerText = copyCount; // Update this line
     }, 5000); // Adjust the delay as needed
 }
 
 
 
-// Call fetchCopyCount after the page has loaded
-document.addEventListener('DOMContentLoaded', function () {
-    fetchCopyCount();
-});
 
 
-    </script>
+    // Call fetchCopyCount after the page has loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchCopyCount();
+    });
 
-</body>
 
-</html>
+        </script>
+
+    </body>
+
+    </html>
