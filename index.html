@@ -150,6 +150,8 @@ p#result {
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
+    font-size: 14px; /* Set the desired font size */
+    margin-top: 20px; /* Adjust as needed */
 }
 
 .result-container p {
@@ -164,6 +166,16 @@ p#result {
     color: white;
     border-radius: 5px;
     margin-left: 10px;
+    padding: 12px; /* Set the desired padding */
+    cursor: pointer;
+}
+
+.copiedButton {
+    background-color: #009688;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    width: 70px; /* Set the same fixed width as the "Copy" button */
 }
 
 /* Media Query for Mobile */
@@ -183,6 +195,14 @@ p#result {
         border-top-right-radius: 0;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
+    }
+
+    .copyButton {
+        padding: 12px; /* Adjust for mobile */
+    }
+
+    .result-container {
+        font-size: 12px; /* Set the desired font size for mobile */
     }
 }
 
@@ -237,7 +257,7 @@ p#result {
 
             <div id="resultSection" class="result-container">
                 <p></p>
-                <button onclick="copyLink()" class="copyButton">Copy</button>
+                <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
             </div>
         </div>
     </div>
@@ -337,6 +357,12 @@ function addPaymentSection() {
     var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
     console.log('fieldSections:', fieldSections);
 
+    // Check if the form link input is empty
+    if (!formLink.trim()) {
+        alert('Form link cannot be empty.');
+        return;
+    }
+
     // Check if all input fields are filled
     var allFieldsFilled = fieldSections.every(function (section) {
         console.log('Checking section:', section);
@@ -397,23 +423,36 @@ function addPaymentSection() {
     // Show the result container
     document.getElementById('resultSection').style.display = 'flex';
 
+    // Reset the copy button text to "Copy"
+    resetCopyButton();
+
     console.log('Generated Link:', link); // Add this line for additional debugging
 }
 
 
+function copyLink() {
+    var linkText = document.getElementById('resultSection').querySelector('p');
+    var tempInput = document.createElement('input');
+    tempInput.value = linkText.textContent;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
 
+    // Change the text to "Copied"
+    var copyButton = document.getElementById('copyButton');
+    copyButton.textContent = 'Copied';
+}
 
+function resetCopyButton() {
+    // Reset the text to "Copy" when generating a new link
+    var copyButton = document.getElementById('copyButton');
+    copyButton.textContent = 'Copy';
+}
 
-        function copyLink() {
-            var linkText = document.getElementById('resultSection').querySelector('p');
-            var tempInput = document.createElement('input');
-            tempInput.value = linkText.textContent;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('Link copied to clipboard!');
-        }
+// Call resetCopyButton() whenever you generate a new link
+// For example, add the following line at the end of your generateLink() function:
+// resetCopyButton();
     </script>
 
 </body>
