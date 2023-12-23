@@ -11,6 +11,8 @@
     gtag('config', 'G-3LR92SQXN2');
     </script>
 
+    <script src="https://apis.google.com/js/api.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
@@ -338,6 +340,12 @@ function addPaymentSection() {
         }
 
         function generateLink() {
+                // Check if the form link is provided
+    var formLink = document.getElementById('formLink').value.trim();
+    if (formLink === '') {
+        alert('Please enter the Form Link.');
+        return;
+    }
     console.log('Entering generateLink function');
 
     var formLink = document.getElementById('formLink').value;
