@@ -115,14 +115,14 @@ p#result {
 }
 
 .removeButton {
+    position: absolute;
+    top: 2.5px;
+    right: -30px;
     background-color: #e57373;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 .addButton {
@@ -186,7 +186,6 @@ p#result {
     }
 }
 
-
     </style>
 
     <!-- Paste the Botsonic widget script here -->
@@ -231,7 +230,7 @@ p#result {
             <div class="buttonContainer">
                 <button onclick="addSection()" class="addButton">+</button>
                 <button onclick="addPaymentSection()" class="paymentButton">$</button>
-                <button onclick="generateLink()">Generate Link</button>
+                <button onclick="generateLink()">Create</button>
             </div>
 
             <p id="result"></p>
@@ -270,7 +269,7 @@ p#result {
 }
 
 
-        function addPaymentSection() {
+function addPaymentSection() {
     if (paymentSectionAdded) {
         alert('Only one payment prefill is allowed.');
         return;
@@ -282,9 +281,11 @@ p#result {
     var newSection = document.createElement('div');
     newSection.className = 'section';
     newSection.innerHTML = `
-        <input type="text" class="fieldID" value="payment_variable_input_amount_field_id" disabled>
-        <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents" value="$0.00" oninput="updateDisplayValue(this)">
-        <input type="hidden" class="prefillValueCents" name="payment_variable_input_amount_field_id" value="0">
+        <div class="section-content">
+            <input type="text" class="fieldID" value="payment_variable_input_amount_field_id" disabled>
+            <input type="text" class="prefillValue paymentInput" placeholder="Enter amount in cents" value="$0.00" oninput="updateDisplayValue(this)">
+            <input type="hidden" class="prefillValueCents" name="payment_variable_input_amount_field_id" value="0">
+        </div>
         <button onclick="removeSection(this)" class="removeButton">−</button>
     `;
 
@@ -294,6 +295,7 @@ p#result {
 
     paymentSectionAdded = true;
 }
+
 
 
     // Function to update display value in real-time
