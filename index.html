@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
 body {
     font-family: 'Inter', sans-serif;
@@ -181,12 +181,19 @@ p#result {
 }
 
 .copy-count-container {
-    margin-top: 10px;
+    bottom: 10px; /* Adjust the distance from the bottom */
+    right: 10px; /* Adjust the distance from the right */
+    width: 15%;
     padding: 10px;
-    background-color: #009688;
-    color: white;
+    background-color: #009688; /* Set the button background color */
+    color: white; /* Set the text color */
     border-radius: 5px;
     text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add a smooth color transition */
+}
+.copy-count-container:hover {
+    background-color: #00796b; /* Change color on hover */
 }
 
 #copyCount {
@@ -203,10 +210,21 @@ p#result {
 /* Loading spinner styles */
 .fa-spinner {
     display: inline-block;
-    font: normal normal normal 24px/1 FontAwesome;
+    font: normal normal normal 18px/1 FontAwesome; /* Adjust font size */
     animation: fa-spin 1s infinite linear;
 }
 
+.spinner-container {
+    position: fixed;
+    bottom: 20px; /* Adjust distance from bottom */
+    right: 20px; /* Adjust distance from right */
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust background color and opacity */
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    
+}
 @keyframes fa-spin {
     0% {
         transform: rotate(0deg);
@@ -269,8 +287,7 @@ p#result {
     </script>
 
     <title>FormSG prefill generator</title>
-</head>
-   <!-- Google tag (gtag.js) -->
+       <!-- Google tag (gtag.js) -->
    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
    <script>
      window.dataLayer = window.dataLayer || [];
@@ -279,6 +296,8 @@ p#result {
    
      gtag('config', 'G-3LR92SQXN2');
    </script>
+</head>
+
 <body>
 
     <div class="container">
@@ -288,6 +307,10 @@ p#result {
         </div>
 
         <div class="form-container">
+            
+            <!-- <div id="copyCountContainer" class="copy-count-container">
+                <span id="copyCount">Loading...</span>
+            </div> -->
             <h1>FormSG prefill generator</h1>
 
             <div id="formSection" class="section">
@@ -307,9 +330,7 @@ p#result {
                 <button id="copyButton" onclick="copyLink()" class="copyButton">Copy</button>
             </div>
             
-            <div id="copyCountContainer" class="copy-count-container">
-                <span id="copyCount">Loading...</span>
-            </div>
+
             
 
         </div>
@@ -518,7 +539,7 @@ function fetchCopyCount() {
     var copyCountElement = document.getElementById('copyCount');
 
     // Show loading spinner
-    copyCountElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
+    copyCountElement.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
 
     // Replace 'G-3LR92SQXN2' with your actual Google Analytics measurement ID
     var measurementId = 'G-3LR92SQXN2';
