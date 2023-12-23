@@ -500,23 +500,25 @@
 
 
     function copyLink() {
-        var linkText = document.getElementById('resultSection').querySelector('p');
-        var tempInput = document.createElement('input');
-        tempInput.value = linkText.textContent;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
+    var linkText = document.getElementById('resultSection').querySelector('p');
+    var tempInput = document.createElement('input');
+    tempInput.value = linkText.textContent;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
 
-        // Change the text to "Copied"
-        var copyButton = document.getElementById('copyButton');
-        copyButton.textContent = 'Copied';
+    // Change the text to "Copied"
+    var copyButton = document.getElementById('copyButton');
+    copyButton.textContent = 'Copied';
 
-        gtag('event', 'copy_link', {
-            'event_category': 'Link Interaction',
-            'event_label': 'Copy Button'
-        });
-    }
+    // Google Analytics event tracking code
+    gtag('event', 'copy_link', {
+        'event_category': 'Link Interaction',
+        'event_label': 'Copy Button'
+    });
+}
+
 
     function resetCopyButton() {
         // Reset the text to "Copy" when generating a new link
