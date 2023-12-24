@@ -257,19 +257,25 @@ p#result {
         var paymentSectionAdded = false;
 
         function addSection() {
-            var sections = document.querySelectorAll('.section');
-            var lastSection = sections[sections.length - 1];
+    var sections = document.querySelectorAll('.section');
+    var lastSection = sections[sections.length - 1];
 
-            var newSection = document.createElement('div');
-            newSection.className = 'section';
-            newSection.innerHTML = `
-                <input type="text" class="fieldID" placeholder="Enter Field ID">
-                <input type="text" class="prefillValue" placeholder="Enter Prefill Value">
-                <button onclick="removeSection(this)" class="removeButton">−</button>
-            `;
+    var newSection = document.createElement('div');
+    newSection.className = 'section';
+    newSection.innerHTML = `
+        <input type="text" class="fieldID" placeholder="Enter Field ID" oninput="sanitizeFieldID(this)">
+        <input type="text" class="prefillValue" placeholder="Enter Prefill Value">
+        <button onclick="removeSection(this)" class="removeButton">−</button>
+    `;
 
-            lastSection.insertAdjacentElement('afterend', newSection);
-        }
+    lastSection.insertAdjacentElement('afterend', newSection);
+}
+
+function sanitizeFieldID(input) {
+    // Replace non-alphanumeric characters with an empty string
+    input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 
         function updatePaymentValue(input) {
     // Remove non-numeric characters
@@ -278,7 +284,6 @@ p#result {
     // Ensure the value is not empty and starts with $0
     input.value = numericValue === '' ? '$0' : '$' + parseInt(numericValue, 10);
 }
-
 
 function addPaymentSection() {
     if (paymentSectionAdded) {
@@ -394,19 +399,25 @@ function addPaymentSection() {
     console.log('Initial link:', link);
 
     fieldSections.forEach(function (section, index) {
-        var fieldID = section.querySelector('.fieldID').value;
-        var prefillValue = section.querySelector('.prefillValue').value;
+    var fieldIDInput = section.querySelector('.fieldID');
+    var fieldID = fieldIDInput.value;
 
-        if (index === 0) {
-            link += '?';
-        } else {
-            link += '&';
-        }
+    // Sanitize the field ID except for the payment section
+    if (!section.classList.contains('payment-section')) {
+        sanitizeFieldID(fieldIDInput);
+    }
 
-        // Exclude the "$" and convert payment value to cents
-        var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
-        link += fieldID + '=' + valueToAppend;
-    });
+    var prefillValue = section.querySelector('.prefillValue').value;
+
+    if (index === 0) {
+        link += '?';
+    } else {
+        link += '&';
+    }
+
+    var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
+    link += fieldID + '=' + valueToAppend;
+});
 
     var resultSection = document.getElementById('resultSection').querySelector('p');
     resultSection.textContent = link;
