@@ -353,8 +353,20 @@ function addPaymentSection() {
 
             section.parentNode.removeChild(section);
         }
+        function isValidURL(url) {
+    // Regular expression for a valid URL
+    var urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    return urlRegex.test(url);
+}
 
         function generateLink() {
+
+        // Reset the Copy button text to "Copy" if it was set to "Copied"
+        var copyButton = document.getElementById('copyButton');
+    if (copyButton.textContent === 'Copied') {
+        copyButton.textContent = 'Copy';
+        copyButton.disabled = false;
+    }
                 // Check if the form link is provided
     var formLink = document.getElementById('formLink').value.trim();
     if (formLink === '') {
@@ -363,7 +375,11 @@ function addPaymentSection() {
     }
     console.log('Entering generateLink function');
 
-    var formLink = document.getElementById('formLink').value;
+        // Check if the form link is a valid URL
+    if (!isValidURL(formLink)) {
+        alert('Please enter a valid URL for the Form Link.');
+        return;
+    }
     console.log('formLink:', formLink);
 
     var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
@@ -452,11 +468,11 @@ gtag('event', 'link_generated', {
 
 
 
-
 function copyLink() {
     var linkText = document.getElementById('resultSection').querySelector('p');
     var copyButton = document.getElementById('copyButton');
-    
+    clearTimeout(copyButton.timer);  // Clear existing timeout
+
     var tempInput = document.createElement('input');
     tempInput.value = linkText.textContent;
     document.body.appendChild(tempInput);
@@ -468,18 +484,13 @@ function copyLink() {
     copyButton.textContent = 'Copied';
     copyButton.disabled = true;
 
-    // Set a timeout to reset the button after a certain duration (e.g., 2 seconds)
-    setTimeout(function () {
-        copyButton.textContent = 'Copy';
-        copyButton.disabled = false;
-    }, 2000);
-
     // Send event to Google Analytics for copy button click
     gtag('event', 'copy_link_button_click', {
         'event_category': 'button_click',
         'event_label': 'Copy Link Button Clicked',
     });
 }
+
 
     </script>
 
