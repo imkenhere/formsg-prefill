@@ -159,10 +159,6 @@ function generateLink() {
         copyButton.disabled = false;
     }
 
-    gtag('event', 'link_generated', {
-        'event_category': 'link_generation',
-        'event_label': 'Link Generated',
-    });
 }
 
 function copyLink() {
@@ -188,24 +184,13 @@ function copyLink() {
 
 // Attach event handlers after the page has fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOMContentLoaded event fired.");
-    var paymentButton = document.getElementById("paymentButton");
-    var generateButton = document.getElementById("generateButton");
+    document.getElementById("addButton").addEventListener("click", addSection);
+    document.getElementById("paymentButton").addEventListener("click", addPaymentSection);
+    document.getElementById("generateButton").addEventListener("click", generateLink);
+    document.getElementById("copyButton").addEventListener("click", copyLink);
 
-    if (paymentButton) {
-        console.log("Adding event listener to paymentButton.");
-        paymentButton.addEventListener("click", addPaymentSection);
-    } else {
-        console.error("paymentButton not found.");
-    }
-
-    if (generateButton) {
-        console.log("Adding event listener to generateButton.");
-        generateButton.addEventListener("click", generateLink);
-    } else {
-        console.error("generateButton not found.");
-    }
-
-    // ... other event listeners
+    gtag('event', 'link_generated', {
+        'event_category': 'link_generation',
+        'event_label': 'Link Generated',
+    });
 });
-
