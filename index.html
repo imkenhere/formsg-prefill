@@ -35,6 +35,36 @@
         </div>
     </div>
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LR92SQXN2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+                 gtag('js', new Date());
+                gtag('config', 'G-3LR92SQXN2');
+        </script>
+    <!-- BotSonic -->
+    <script>
+        (function (w, d, s, o, f, js, fjs) {
+    w["botsonic_widget"] = o;
+    w[o] =
+        w[o] ||
+        function () {
+            (w[o].q = w[o].q || []).push(arguments);
+        };
+    (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
+    js.id = o;
+    js.src = f;
+    js.async = 1;
+    fjs.parentNode.insertBefore(js, fjs);
+})(window, document, "script", "Botsonic", "https://widget.writesonic.com/CDN/botsonic.min.js");
+Botsonic("init", {
+    serviceBaseUrl: "https://api.botsonic.ai",
+    token: "59b1d482-1c64-4107-809b-d1aa9c222414",
+});
+    </script>
+
+    <!-- Other Scripts -->
     <script src="script.js" defer></script>
     <script src="eventHandlers.js" defer></script>
 
