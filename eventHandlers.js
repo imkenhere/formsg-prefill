@@ -1,3 +1,6 @@
+// Variable declaration
+var paymentSectionAdded = false;
+
 // Function definitions
 function addSection() {
     var sections = document.querySelectorAll('.section');
@@ -51,12 +54,158 @@ function addPaymentSection() {
     paymentSectionAdded = true;
 }
 
-// Add other function definitions here
+function updateDisplayValue(input) {
+    var displayInput = input.value;
+    var centsInput = displayInput.replace(/\D/g, '');
+
+    var hiddenInput = input.parentNode.querySelector('.prefillValueCents');
+    hiddenInput.value = centsInput;
+
+    input.value = formatCurrency(centsInput);
+}
+
+function formatCurrency(valueInCents) {
+    var valueInDollars = (parseFloat(valueInCents) / 100).toFixed(2);
+    return '$' + valueInDollars;
+}
+
+function removeSection(button) {
+    var section = button.parentNode;
+
+    if (section.classList.contains('payment-section')) {
+        paymentSectionAdded = false;
+    }
+
+    section.parentNode.removeChild(section);
+}
+
+function isValidURL(url) {
+    var urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    return urlRegex.test(url);
+}
+
+function generateLink() {
+    var copyButton = document.getElementById('copyButton');
+    if (copyButton.textContent === 'Copied') {
+        copyButton.textContent = 'Copy';
+        copyButton.disabled = false;
+    }
+
+    var formLink = document.getElementById('formLink').value.trim();
+    if (formLink === '') {
+        alert('Please enter the Form Link.');
+        return;
+    }
+
+    if (!isValidURL(formLink)) {
+        alert('Please enter a valid URL for the Form Link.');
+        return;
+    }
+
+    var fieldSections = Array.from(document.querySelectorAll('.section:not(#formSection)'));
+
+    var allFieldsFilled = fieldSections.every(function (section) {
+        var fieldID = section.querySelector('.fieldID').value;
+        var prefillValue = section.querySelector('.prefillValue').value;
+
+        if (section.classList.contains('payment-section')) {
+            var numericValue = parseFloat(prefillValue.replace(/[^\d.]/g, ''), 10);
+
+            section.querySelector('.prefillValueCents').value = isNaN(numericValue) ? 0 : numericValue * 100;
+
+            if (numericValue < 0.5 || numericValue > 200000) {
+                alert('Payment amount must be between $0.50 and $200000.');
+                return false;
+            }
+        }
+
+        return fieldID && prefillValue;
+    });
+
+    if (!allFieldsFilled) {
+        alert('Please fill in all the required fields.');
+        return;
+    }
+
+    var link = formLink;
+
+    fieldSections.forEach(function (section, index) {
+        var fieldIDInput = section.querySelector('.fieldID');
+        var fieldID = fieldIDInput.value;
+
+        if (!section.classList.contains('payment-section')) {
+            sanitizeFieldID(fieldIDInput);
+        }
+
+        var prefillValue = section.querySelector('.prefillValue').value;
+
+        if (index === 0) {
+            link += '?';
+        } else {
+            link += '&';
+        }
+
+        var valueToAppend = section.classList.contains('payment-section') ? section.querySelector('.prefillValueCents').value : prefillValue;
+        link += fieldID + '=' + valueToAppend;
+    });
+
+    var resultSection = document.getElementById('resultSection').querySelector('p');
+    resultSection.textContent = link;
+
+    document.getElementById('resultSection').style.display = 'flex';
+
+    if (copyButton.textContent === 'Copied') {
+        copyButton.textContent = 'Copy';
+        copyButton.disabled = false;
+    }
+
+    gtag('event', 'link_generated', {
+        'event_category': 'link_generation',
+        'event_label': 'Link Generated',
+    });
+}
+
+function copyLink() {
+    var linkText = document.getElementById('resultSection').querySelector('p');
+    var copyButton = document.getElementById('copyButton');
+    clearTimeout(copyButton.timer);
+
+    var tempInput = document.createElement('input');
+    tempInput.value = linkText.textContent;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    copyButton.textContent = 'Copied';
+    copyButton.disabled = true;
+
+    gtag('event', 'copy_link_button_click', {
+        'event_category': 'button_click',
+        'event_label': 'Copy Link Button Clicked',
+    });
+}
 
 // Attach event handlers after the page has fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("addButton").addEventListener("click", addSection);
-    document.getElementById("paymentButton").addEventListener("click", addPaymentSection);
-    document.getElementById("generateButton").addEventListener("click", generateLink);
-    document.getElementById("copyButton").addEventListener("click", copyLink);
+    console.log("DOMContentLoaded event fired.");
+    var paymentButton = document.getElementById("paymentButton");
+    var generateButton = document.getElementById("generateButton");
+
+    if (paymentButton) {
+        console.log("Adding event listener to paymentButton.");
+        paymentButton.addEventListener("click", addPaymentSection);
+    } else {
+        console.error("paymentButton not found.");
+    }
+
+    if (generateButton) {
+        console.log("Adding event listener to generateButton.");
+        generateButton.addEventListener("click", generateLink);
+    } else {
+        console.error("generateButton not found.");
+    }
+
+    // ... other event listeners
 });
+
