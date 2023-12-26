@@ -9,8 +9,8 @@ function addSection() {
     var newSection = document.createElement('div');
     newSection.className = 'section';
     newSection.innerHTML = `
-        <input type="text" class="fieldID" placeholder="Enter Field ID" oninput="sanitizeFieldID(this)">
-        <input type="text" class="prefillValue" placeholder="Enter Prefill Value">
+        <input type="text" class="fieldID" placeholder="Enter field ID" oninput="sanitizeFieldID(this)">
+        <input type="text" class="prefillValue" placeholder="Enter prefill value">
         <button onclick="removeSection(this)" class="removeButton">−</button>
     `;
 
