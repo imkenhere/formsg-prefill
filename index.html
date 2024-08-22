@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>FormSG prefill generator</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="Left.png" alt="Background Image">
+        </div>
+
+        <div class="form-container">
+            <h1>FormSG prefill generator</h1>
+
+            <div id="formSection" class="section">
+                <input type="text" id="formLink" placeholder="Enter form link">
+            </div>
+
+            <div class="buttonContainer">
+                <button id="addButton" class="addButton">+</button>
+                <button id="paymentButton" class="paymentButton">$</button>
+                <button id="generateButton">Create</button>
+            </div>
+
+            <p id="result"></p>
+
+            <div id="resultSection" class="result-container">
+                <p></p>
+                <button id="copyButton" class="copyButton">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other Scripts -->
+    <script src="script.js" defer></script>
+    <script src="eventHandlers.js" defer></script>
+    
+    <!-- Live Chat -->
+    <div id="wizgov-widget" data-agency="YOUR_AGENCY_NAME"></div>
+    <link rel="stylesheet" href="https://script-staging.wiz.gov.sg/widget.css" />
+    <script src="https://script-staging.wiz.gov.sg/widget.js"></script>
+</body>
+</html>
